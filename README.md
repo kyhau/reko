@@ -14,6 +14,6 @@ Simple scripts for supporting face-based user verification using [Amazon Rekogni
    ```
    virtualenv env
    env\Scripts\activate
-   pip install --find-links dist_ext -r requirements.txt
+   pip install --find-links dist_ext -e .
    
    ```
