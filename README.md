@@ -4,6 +4,9 @@ Simple scripts for supporting face-based user verification using
 [Amazon Rekognition](https://aws.amazon.com/rekognition/) and [OpenCV 2](http://opencv.org/).
 Also support vocal confirmation using [Amazon Polly](https://aws.amazon.com/polly/details/).
 
+- [LICENSE](LICENSE)
+- [Release Notes](ReleaseNotes.md)
+
 ## Build
 
 1. Install [OpenCV 2](http://opencv.org/) (not in pypi):
