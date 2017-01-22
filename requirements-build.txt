@@ -1,0 +1,8 @@
+# This file is used for running tox, pylint and build the wheel
+logilab-common>=1.2.2
+py>=1.4.31
+pip>=8.1.2
+pylint>=1.6.4
+tox>=2.4.1
+virtualenv>=15.0.3
+wheel>=0.29.0

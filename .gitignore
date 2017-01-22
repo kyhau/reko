@@ -12,6 +12,7 @@ env/
 build/
 develop-eggs/
 dist/
+dist_ext/
 downloads/
 eggs/
 .eggs/
@@ -87,3 +88,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Pycharm
+.idea/
