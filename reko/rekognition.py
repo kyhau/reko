@@ -83,7 +83,8 @@ class Rekognition():
         return False
 
     def search_faces_by_image(self, image_file, external_image_id, collection_id):
-        found = False
+        id = None
+        similarity = 0.0
         with open(image_file, 'rb') as image:
             ret = self.client.search_faces_by_image(
                 CollectionId=collection_id,
@@ -92,12 +93,13 @@ class Rekognition():
             print(ret)
             if status_code(ret) == 200:
                 for rec in ret['FaceMatches']:
-                    if rec['Face']['ExternalImageId'] != external_image_id:
+                    if external_image_id is not None and rec['Face']['ExternalImageId'] != external_image_id:
                         continue
-                    found = True
+                    if rec['Similarity'] > similarity:
+                        id = rec['Face']['ExternalImageId']
                     print("Similarity: {}".format(rec['Similarity']))
                     print("FaceId: {}".format(rec['Face']['FaceId']))
                     print("ImageId: {}".format(rec['Face']['ImageId']))
                     print("ExternalImageId: {}".format(rec['Face']['ExternalImageId']))
                     print("Confidence: {}".format(rec['Face']['Confidence']))
-        return found
+        return id

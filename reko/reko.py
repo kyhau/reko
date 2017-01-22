@@ -1,21 +1,28 @@
 from __future__ import print_function
 from argparse import ArgumentParser
 import os
+import subprocess
 import sys
 
 from cameraman import CameraMan
+from polly import Polly
 from rekognition import Rekognition
 
 
 class Reko():
     def __init__(self, profile, collection_id):
         self.collection_id = collection_id
-        self.__rekognition = Rekognition(profile)
         self.__cameraman = CameraMan()
+        self.__rekognition = Rekognition(profile)
+        self.polly = Polly(profile)
 
     @staticmethod
     def tmp_image_file():
-        return os.path.join(os.path.dirname(os.path.realpath(__file__)), 'test_image.png')
+        return os.path.join(os.path.dirname(os.path.realpath(__file__)), 'reko_image.png')
+
+    @staticmethod
+    def tmp_audio_file():
+        return os.path.join(os.path.dirname(os.path.realpath(__file__)), 'reko_audio.mp3')
 
     def list_collections(self):
         return self.__rekognition.list_collections()
@@ -56,6 +63,23 @@ class Reko():
     def delete_collection(self):
         return self.__rekognition.delete_collection(collection_id=self.collection_id)
 
+    def greeting(self, id):
+        msg = "Hello {}!".format(id)
+        if self.polly.synthesize_speech(text_message=msg, output_file=self.tmp_audio_file()) is True:
+            Reko.play_audio(self.tmp_audio_file())
+            return True
+        return False
+
+    @staticmethod
+    def play_audio(audio_file):
+        # Play the audio using the platform's default player
+        if sys.platform == "win32":
+            os.startfile(audio_file)
+        else:
+            # the following works on Mac and Linux. (Darwin = mac, xdg-open = linux).
+            opener = "open" if sys.platform == "darwin" else "xdg-open"
+            subprocess.call([opener, audio_file])
+
 
 def get_args():
     parser = ArgumentParser(description='Reko')
@@ -64,16 +88,15 @@ def get_args():
     parser.add_argument('-c', '--collection_id', metavar='COLLECTION_ID')
     parser.add_argument('-d', '--delete_collection', action='store_true', default=False)
     parser.add_argument('-f', '--faces', action='store_true', default=False)
-    parser.add_argument('-i', '--signin', metavar='USERNAME')
     parser.add_argument('-u', '--signup', metavar='USERNAME')
+    parser.add_argument('-i', '--signin', metavar='USERNAME')
+    parser.add_argument('-a', '--audio_on', action='store_true', default=False)
     return parser.parse_args()
-
 
 def main():
     args = get_args()
 
     reko = Reko(profile=args.profile, collection_id=args.collection_id)
-
     print(args)
 
     if args.collections is True:
@@ -86,7 +109,9 @@ def main():
         reko.list_faces()
 
     elif args.signin:
-        reko.signin(id=args.signin)
+        id = reko.signin(id=args.signin)
+        if args.audio is True:
+            reko.greeting(id)
 
     elif args.signup:
         reko.signup(id=args.signup)
