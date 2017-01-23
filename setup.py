@@ -13,14 +13,15 @@ __author__ = "Kayan Hau"
 __email__ = "virtualda@gmail.com"
 
 __title__ = "reko"
-__version__ = "0.0.1"
+__version__ = "0.1.0.dev0"
 __summary__ = "This package supports face-based user verification using Amazon Rekognition."
 __uri__ = "https://github.com/kyhau/reko"
 
 __requirements__ = [
     'boto3==1.4.4',
     'opencv-python==2.4.13.2',
-    'numpy==1.11.1+mkl'
+    'numpy==1.11.1+mkl',
+    'playsound==1.2.1'
 ]
 
 with open(os.path.join(base_dir, "README.md")) as f:
@@ -40,4 +41,9 @@ setup(
     data_files=[
         ('', ['ReleaseNotes.md']),
     ],
+    entry_points={
+        'console_scripts': [
+            'reko = reko.__main__:main'
+          ]
+      },
 )

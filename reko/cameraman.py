@@ -35,30 +35,36 @@ class CameraMan():
         :param ramp_frames: Number of frames to throw away while the camera adjusts to light levels
         :return:
         """
-        # Now we can initialize the camera capture object with the
-        # cv2.VideoCapture class. All it needs is the index to a camera port.
-        camera = cv2.VideoCapture(self.camera_port)
+        try:
+            # Now we can initialize the camera capture object with the
+            # cv2.VideoCapture class. All it needs is the index to a camera port.
+            camera = cv2.VideoCapture(self.camera_port)
 
-        # Ramp the camera - these frames will be discarded and are only used to
-        # allow v4l2 to adjust light levels, if necessary
-        for i in xrange(ramp_frames):
-            temp = self.get_image(camera)
+            # Ramp the camera - these frames will be discarded and are only used to
+            # allow v4l2 to adjust light levels, if necessary
+            for i in xrange(ramp_frames):
+                temp = self.get_image(camera)
 
-        print("Taking image...")
+            print("Taking image...")
 
-        # Take the actual image we want to keep
-        camera_capture = self.get_image(camera)
-        file = "test_image.png"
+            # Take the actual image we want to keep
+            camera_capture = self.get_image(camera)
 
-        # A nice feature of the imwrite method is that it will automatically
-        # choose the correct format based on the file extension you provide.
-        cv2.imwrite(image_name, camera_capture)
+            # A nice feature of the imwrite method is that it will automatically
+            # choose the correct format based on the file extension you provide.
+            cv2.imwrite(image_name, camera_capture)
 
-        # You'll want to release the camera, otherwise you won't be able to
-        # create a new capture object until your script exits
-        del (camera)
+            # You'll want to release the camera, otherwise you won't be able to
+            # create a new capture object until your script exits
+            del (camera)
 
-        print("Image saved to {}".format(image_name))
+            print("Image saved to {}".format(image_name))
+            return True
+
+        except Exception as e:
+            print(e.message)
+
+        return False
 
 
 def main(argv):

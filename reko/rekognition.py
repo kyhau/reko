@@ -83,6 +83,12 @@ class Rekognition():
         return False
 
     def search_faces_by_image(self, image_file, external_image_id, collection_id):
+        """
+        :param image_file:
+        :param external_image_id:
+        :param collection_id:
+        :return: ExternalImageId if find a match; None if unable to find a match
+        """
         id = None
         similarity = 0.0
         with open(image_file, 'rb') as image:

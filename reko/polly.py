@@ -34,6 +34,11 @@ class Polly():
             output_format=DEFAULTS["output_format"], output_file=DEFAULTS["output_filename"]
     ):
         try:
+            import os
+            if os.path.exists(output_file):
+                print("Deleting existing file")
+                os.remove(output_file)
+
             response = self.client.synthesize_speech(
                 OutputFormat=output_format,
                 Text=text_message,
