@@ -12,10 +12,10 @@ class Reko():
     def __init__(self, profile, collection_id, audio_on=False):
         self.collection_id = collection_id
         self.audio_on = audio_on
-        self.__cameraman = CameraMan()
-        self.__cachestore = CacheStore()
-        self.__rekognition = Rekognition(profile)
-        self.__polly = Polly(profile)
+        self._cameraman = CameraMan()
+        self._cache = CacheStore()
+        self._rekognition = Rekognition(profile)
+        self._polly = Polly(profile)
 
     def __del__(self):
         pass
@@ -24,31 +24,32 @@ class Reko():
         """
         List all collections.
         """
-        return self.__rekognition.list_collections()
+        return self._rekognition.list_collections()
 
     def list_faces(self):
         """
         List all faces of the current collection.
         """
-        return self.__rekognition.list_faces(collection_id=self.collection_id)
+        return self._rekognition.list_faces(collection_id=self.collection_id)
 
     def signin(self, id=None):
         """
-        :param id: external_image_id
-        :return:
+        :param id: (optional) external_image_id
+        :return: external_image_id or None if not found
         """
-        if not self.__rekognition.collection_exist(collection_id=self.collection_id):
-            return False
+        if not self._rekognition.collection_exist(collection_id=self.collection_id):
+            return None
 
         # Take an image
-        img_file = self.__cachestore.tmp_image_file()
-        if self.take_picture(image_name=img_file) is False:
-            return False
+        if self.take_picture() is False:
+            return None
 
-        ret_id = self.__rekognition.search_faces_by_image(
-            collection_id=self.collection_id, image_file=img_file, external_image_id=id)
+        ret_id = self._rekognition.search_faces_by_image(
+            collection_id=self.collection_id, image_file=self._cache.cache_img, external_image_id=id)
+
         if self.audio_on is True:
             self.speak("Hello {}!".format(ret_id) if ret_id is not None else "Sorry! I do not recognise you.")
+
         return ret_id
 
     def signup(self, id):
@@ -56,29 +57,29 @@ class Reko():
         :param id: external_image_id
         :return:
         """
-        if not self.__rekognition.collection_exist(collection_id=self.collection_id) \
-                and not self.__rekognition.create_collection(collection_id=self.collection_id):
+        if not self._rekognition.collection_exist(collection_id=self.collection_id) \
+                and not self._rekognition.create_collection(collection_id=self.collection_id):
             return False
 
         # Take an image
-        img_file = self.__cachestore.tmp_image_file()
-        if self.take_picture(image_name=img_file) is False:
+        if self.take_picture() is False:
             return False
 
         # Store face
-        succeeded = self.__rekognition.index_faces(
-            collection_id=self.collection_id, image_file=img_file, external_image_id=id)
+        succeeded = self._rekognition.index_faces(
+            collection_id=self.collection_id, image_file=self._cache.cache_img, external_image_id=id)
+
         if self.audio_on is True:
-            self.speak("Hello {}!".format(id) if succeeded is True \
-                else "Sorry {}! I have problem remembering you!".format(id))
+            self.speak("Hello {}!".format(id) if succeeded is True else "Sorry {}! I have problem remembering you!".format(id))
+
         return succeeded
 
-    def take_picture(self, image_name):
+    def take_picture(self):
         """
         Connect to the webcam and capture an image and save to the give file.
         """
         # Take an image
-        if self.__cameraman.take_picture(image_name=image_name) is False:
+        if self._cameraman.take_picture(image_name=self._cache.cache_img) is False:
             if self.audio_on: self.speak("Sorry! I'm unable to connect to the camera.")
             return False
 
@@ -89,18 +90,18 @@ class Reko():
         """
         Delete the current collection.
         """
-        return self.__rekognition.delete_collection(collection_id=self.collection_id)
+        return self._rekognition.delete_collection(collection_id=self.collection_id)
 
     def speak(self, msg):
         """
         Create an audio file for the given msg and play it.
         """
-        filename = self.__cachestore.get_filename(msg, 'mp3')
-        filepath = self.__cachestore.get_filepath(filename)
+        filename = self._cache.get_filename(msg, 'mp3')
+        filepath = self._cache.get_filepath(filename)
         if os.path.exists(filepath):
             Reko.play_audio(filepath)
             return True
-        if self.__polly.synthesize_speech(text_message=msg, output_file=filepath) is True:
+        if self._polly.synthesize_speech(text_message=msg, output_file=filepath) is True:
             Reko.play_audio(filepath)
             return True
         return False
