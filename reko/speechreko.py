@@ -2,50 +2,103 @@
 NOTE: this example requires PyAudio because it uses the Microphone class
 """ 
 from __future__ import print_function
+import os
 import speech_recognition as sr
+from playsound import playsound
+
+from polly import Polly
+from reko import Reko
 
 
-# this is called from the background thread
-def callback(recognizer, audio):
-    try:
-        print("Google thinks you said " + recognizer.recognize_google(audio))
-    except sr.UnknownValueError:
-        print("Google could not understand audio")
-    except sr.RequestError as e:
-        print("Google error; {0}".format(e))
+class SpeechReko(Reko):
+    def __init__(self, profile, collection_id, audio_on=False):
+        Reko.__init__(self, profile, collection_id)
+        self._audio_on = audio_on
+        self._polly = Polly(profile)
 
+    def signin(self, id=None):
+        """
+        :param id: (optional) external_image_id
+        :return: external_image_id or None if not found
+        """
+        ret_id = super(SpeechReko, self).signin(id)
+        if self._audio_on is True:
+            self.speak("Hello {}!".format(ret_id) \
+                if ret_id is not None else "Sorry! I do not recognise you.")
+        return ret_id
 
-def listening_simple():
-    # obtain audio from the microphone
-    recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("Say something!")
-        audio = recognizer.listen(source)
-        try:
-            print("Google thinks you said " + recognizer.recognize_google(audio))
-        except sr.UnknownValueError:
-            print("Google could not understand audio")
-        except sr.RequestError as e:
-            print("Google error; {0}".format(e))
+    def signup(self, id):
+        """
+        :param id: external_image_id
+        :return:
+        """
+        succeeded = super(SpeechReko, self).signup(id)
+        if self._audio_on is True:
+            self.speak("Hello {}!".format(id) if succeeded is True else "Sorry {}! I have problem remembering you!".format(id))
+        return succeeded
 
+    def take_picture(self):
+        """Connect to the webcam and capture an image and save to the give file.
+        """
+        succeeded = super(SpeechReko, self).take_picture()
+        if self._audio_on:
+            msg = "I can see you" if succeeded \
+                else "Sorry! I'm unable to connect to the camera."
+            self.speak(msg)
+        return succeeded
 
-def listening():
-    recognizer = sr.Recognizer()
-    m = sr.Microphone()
-    with m as source:
-        recognizer.adjust_for_ambient_noise(source)  # we only need to calibrate once, before we start listening
+    def speak(self, msg):
+        """Create an audio file for the given msg and play it.
+        """
+        if self._audio_on is False:
+            print(msg)
+            return True
 
-    # start listening in the background (note that we don't have to do this inside a `with` statement)
-    stop_listening = recognizer.listen_in_background(m, callback)
-    # `stop_listening` is now a function that, when called, stops background listening
+        filename = self._cache.get_filename(msg, 'mp3')
+        filepath = self._cache.get_filepath(filename)
+        if os.path.exists(filepath):
+            SpeechReko.play_audio(filepath)
+            return True
+        if self._polly.synthesize_speech(text_message=msg, output_file=filepath) is True:
+            SpeechReko.play_audio(filepath)
+            return True
+        return False
 
-    # do some other computation for 5 seconds, then stop listening and keep doing other computations
-    import time
-    for _ in range(50):
-        time.sleep(0.1)  # we're still listening even though the main thread is doing other things
-    stop_listening()  # calling this function requests that the background listener stop listening
-    while True:
-        time.sleep(0.1)
+    @staticmethod
+    def play_audio(audio_file):
+        """
+        Play sound
+        """
+        playsound(audio_file)
 
+    def listening(self):
+        """Obtain audio from the microphone
+        """
+        while True:
+            recognizer = sr.Recognizer()
+            with sr.Microphone() as source:
+                print("Listening ...")
+                audio = recognizer.listen(source)
+                try:
+                    input_msg = recognizer.recognize_google(audio)
+                    if self.process_message(input_msg) is False:
+                        break
+                except sr.UnknownValueError:
+                    self.speak("Please say it again")
+                except sr.RequestError as e:
+                    self.speak("I have problem listening to you")
+                    print("Error: {0}".format(e))
 
-listening_simple()
+    def process_message(self, input_msg):
+        """Process message and return False if stop listening
+        """
+        print("You said " + input_msg)
+
+        if 'bye' in input_msg:
+            self.speak("Goodbye")
+            return False
+
+        if 'sign in' in input_msg:
+            self.signin()
+
+        return True
