@@ -23,36 +23,48 @@ Simple Python scripts for supporting face based user verification.
    virtualenv env
    env\Scripts\activate
    pip install --find-links dist_ext -i https://pypi.python.org/pypi -e .
-   
    ```
 
 ## Run 
 
 1. Get Help from command line
+
    ```bash
    reko help
    ```
+   
 1. List all collections from command line
+
    ```bash
    reko --profile AWS_PROFILE_NAME --collections
    ```
+   
 1. List all faces in a collection
+
    ```bash
    reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --faces
    ```
-1. Sign-up from command line. If collection does not exist, it will be created.
+   
+1. Sign-up from command line. If collection does not exist, it will be created
+
    ```bash
    reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --signup NAME
    ```
+   
 1. Sign-in from command line, with verbal feedback
+
    ```bash
    reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --signin NAME --audio_on
    ```
+   
 1. Delete a collection from command line
+
    ```bash
    reko --profile AWS_PROFILE_NAME --delete_collection COLLECTION_ID
    ```
+   
 1. Sign-in using microphone
+
    ```bash
    reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --listen_on --audio_on
    ```
