@@ -45,7 +45,7 @@ class CameraMan():
             for i in xrange(ramp_frames):
                 temp = self.get_image(camera)
 
-            print("Taking image...")
+            print("Taking image ...")
 
             # Take the actual image we want to keep
             camera_capture = self.get_image(camera)

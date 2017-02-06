@@ -1,10 +1,11 @@
 # Reko (in progress)
 
-Simple Python scripts for supporting face based user verification using 
-[Amazon Rekognition](https://aws.amazon.com/rekognition/) and [OpenCV 2](http://opencv.org/).
-Also support vocal confirmation using [Amazon Polly](https://aws.amazon.com/polly/details/).
-
-IN PROGRESS: Using [speechrecognition](https://github.com/Uberi/speech_recognition) to get command.
+Simple Python scripts for supporting face based user verification.
+ 
+1. Obtain verbal instructions using Google API - [speechrecognition](https://github.com/Uberi/speech_recognition) to get command. (IN PROGRESS)
+1. Control webcam to take image using [OpenCV 2](http://opencv.org/). 
+1. Face recognition with [Amazon Rekognition](https://aws.amazon.com/rekognition/).
+1. Verbal feedback (Text-to-Speech) using [Amazon Polly](https://aws.amazon.com/polly/details/).
 
 - [LICENSE](LICENSE)
 - [Release Notes](ReleaseNotes.md)
@@ -21,6 +22,37 @@ IN PROGRESS: Using [speechrecognition](https://github.com/Uberi/speech_recogniti
    ```
    virtualenv env
    env\Scripts\activate
-   pip install --find-links dist_ext -e .
+   pip install --find-links dist_ext -i https://pypi.python.org/pypi -e .
    
+   ```
+
+## Run 
+
+1. Get Help from command line
+   ```bash
+   reko help
+   ```
+1. List all collections from command line
+   ```bash
+   reko --profile AWS_PROFILE_NAME --collections
+   ```
+1. List all faces in a collection
+   ```bash
+   reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --faces
+   ```
+1. Sign-up from command line. If collection does not exist, it will be created.
+   ```bash
+   reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --signup NAME
+   ```
+1. Sign-in from command line, with verbal feedback
+   ```bash
+   reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --signin NAME --audio_on
+   ```
+1. Delete a collection from command line
+   ```bash
+   reko --profile AWS_PROFILE_NAME --delete_collection COLLECTION_ID
+   ```
+1. Sign-in using microphone
+   ```bash
+   reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --listen_on --audio_on
    ```

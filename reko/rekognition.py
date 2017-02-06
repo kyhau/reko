@@ -92,6 +92,7 @@ class Rekognition():
         id = None
         similarity = 0.0
         with open(image_file, 'rb') as image:
+            print("Searching faces ...")
             ret = self.client.search_faces_by_image(
                 CollectionId=collection_id,
                 Image={'Bytes': image.read()},

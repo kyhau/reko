@@ -18,12 +18,12 @@ __summary__ = "This package supports face-based user verification using Amazon R
 __uri__ = "https://github.com/kyhau/reko"
 
 __requirements__ = [
-    'boto3==1.4.4',
-    'opencv-python==2.4.13.2',
-    'numpy==1.11.1+mkl',
-    'playsound==1.2.1',
-    'SpeechRecognition==3.6.0',
-    'PyAudio==0.2.10'
+    'boto3>=1.4.4',
+    'opencv-python>=3.2.0.6',
+    'numpy>=1.11.1+mkl',
+    'playsound>=1.2.1',
+    'SpeechRecognition>=3.6.0',
+    'PyAudio>=0.2.10'
 ]
 
 with open(os.path.join(base_dir, "README.md")) as f:
@@ -45,7 +45,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'reko = reko.__main__:main'
+            'reko = reko.main:main'
           ]
       },
 )

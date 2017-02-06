@@ -94,11 +94,12 @@ class SpeechReko(Reko):
         """
         print("You said " + input_msg)
 
-        if 'bye' in input_msg:
+        # TODO still in progress, this part is tmp code
+        if 'bye' in input_msg or 'goodbye' in input_msg or 'good bye' in input_msg:
             self.speak("Goodbye")
             return False
 
-        if 'sign in' in input_msg:
+        if 'sign in' in input_msg or 'sign-in' in input_msg:
             self.signin()
 
         return True
