@@ -23,7 +23,7 @@ Simple Python scripts for supporting face based user verification.
 1. Get Help from command line
 
    ```bash
-   reko help
+   reko --help
    ```
    
 1. List all collections from command line
