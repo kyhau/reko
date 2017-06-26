@@ -18,6 +18,7 @@ def get_args():
 
     parser.add_argument('-a', '--audio_on', action='store_true', default=False)
     parser.add_argument('-l', '--listen_on', action='store_true', default=False)
+    parser.add_argument('-w', '--watch_on', metavar='INTERVAL_SEC')
     return parser.parse_args()
 
 
@@ -41,6 +42,13 @@ def main():
 
     elif args.signup:
         app.signup(id=args.signup)
+
+    elif args.watch_on:
+        try:
+            interval_sec = float(args.watch_on)
+        except:
+            interval_sec = 30
+        app.watching(interval_sec=interval_sec)
 
     elif args.listen_on is True:
         app.listening()

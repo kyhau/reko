@@ -4,6 +4,7 @@ NOTE: this example requires PyAudio because it uses the Microphone class
 from __future__ import print_function
 import os
 import speech_recognition as sr
+import time
 from playsound import playsound
 
 from polly import Polly
@@ -41,10 +42,8 @@ class SpeechReko(Reko):
         """Connect to the webcam and capture an image and save to the give file.
         """
         succeeded = super(SpeechReko, self).take_picture()
-        if self._audio_on:
-            msg = "I can see you" if succeeded \
-                else "Sorry! I'm unable to connect to the camera."
-            self.speak(msg)
+        if succeeded is False and self._audio_on:
+            self.speak("Sorry! I'm unable to connect to the camera.")
         return succeeded
 
     def speak(self, msg):
@@ -70,6 +69,20 @@ class SpeechReko(Reko):
         Play sound
         """
         playsound(audio_file)
+
+    def watching(self, interval_sec=30):
+        """
+        """
+        while True:
+            print("Watching ...")
+            try:
+                ret_id = super(SpeechReko, self).signin()
+                if ret_id and self._audio_on is True:
+                    self.speak("Hello {}!".format(ret_id))
+            except Exception as e:
+                print("Error: {0}".format(e))
+
+            time.sleep(interval_sec)
 
     def listening(self):
         """Obtain audio from the microphone

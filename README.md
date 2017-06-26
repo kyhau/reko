@@ -59,5 +59,11 @@ Simple Python scripts for supporting face based user verification.
 1. Sign-in using microphone
 
    ```bash
-   reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --listen_on --audio_on
+   reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --audio_on --listen_on
+   ```
+
+1. Keep watching (at the specified internal )and sign-in when possible
+
+   ```bash
+   reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID -audio_on --watch_on INTERVAL_SEC
    ```
