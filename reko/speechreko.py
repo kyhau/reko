@@ -53,7 +53,7 @@ class SpeechReko(Reko):
             print(msg)
             return True
 
-        filename = self._cache.get_filename(msg, 'mp3')
+        filename = self._cache.get_filename(msg, "mp3")
         filepath = self._cache.get_filepath(filename)
         if os.path.exists(filepath):
             SpeechReko.play_audio(filepath)

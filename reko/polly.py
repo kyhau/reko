@@ -12,7 +12,7 @@ DEFAULTS = {
 }
 
 def status_code(ret):
-    return ret['ResponseMetadata']['HTTPStatusCode']
+    return ret["ResponseMetadata"]["HTTPStatusCode"]
 
 
 class Polly():
@@ -25,7 +25,7 @@ class Polly():
         # Create a client using the credentials and region defined in the [profile_name]
         # section of the AWS credentials file (~/.aws/credentials).
         session = Session(profile_name=self.profile)
-        client = session.client('polly', region_name=self.region_name)
+        client = session.client("polly", region_name=self.region_name)
         return client
 
     def synthesize_speech(self,

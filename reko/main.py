@@ -6,19 +6,19 @@ import speechreko
 
 
 def get_args():
-    parser = ArgumentParser(description='Reko')
-    parser.add_argument('-p', '--profile', metavar='PROFILE_NAME')
-    parser.add_argument('-s', '--collections', action='store_true', default=False)
-    parser.add_argument('-c', '--collection_id', metavar='COLLECTION_ID')
-    parser.add_argument('-d', '--delete_collection', action='store_true', default=False)
-    parser.add_argument('-f', '--faces', action='store_true', default=False)
+    parser = ArgumentParser(description="Reko")
+    parser.add_argument("-p", "--profile", metavar="PROFILE_NAME")
+    parser.add_argument("-s", "--collections", action="store_true", default=False)
+    parser.add_argument("-c", "--collection_id", metavar="COLLECTION_ID")
+    parser.add_argument("-d", "--delete_collection", action="store_true", default=False)
+    parser.add_argument("-f", "--faces", action="store_true", default=False)
 
-    parser.add_argument('-u', '--signup', metavar='USERNAME')
-    parser.add_argument('-i', '--signin', metavar='USERNAME')
+    parser.add_argument("-u", "--signup", metavar="USERNAME")
+    parser.add_argument("-i", "--signin", metavar="USERNAME")
 
-    parser.add_argument('-a', '--audio_on', action='store_true', default=False)
-    parser.add_argument('-l', '--listen_on', action='store_true', default=False)
-    parser.add_argument('-w', '--watch_on', metavar='INTERVAL_SEC')
+    parser.add_argument("-a", "--audio_on", action="store_true", default=False)
+    parser.add_argument("-l", "--listen_on", action="store_true", default=False)
+    parser.add_argument("-w", "--watch_on", metavar="INTERVAL_SEC")
     return parser.parse_args()
 
 

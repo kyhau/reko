@@ -53,7 +53,7 @@ Simple Python scripts for supporting face based user verification.
 1. Delete a collection from command line
 
    ```bash
-   reko --profile AWS_PROFILE_NAME --delete_collection COLLECTION_ID
+   reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --delete_collection
    ```
    
 1. Sign-in using microphone
