@@ -2,8 +2,7 @@ from __future__ import print_function
 import boto3
 
 DEFAULTS = {
-    "endpoint_url": "https://rekognition.us-east-1.amazonaws.com",
-    "region_name": "us-east-1"
+    "region_name": "us-west-2"
 }
 
 
@@ -12,15 +11,14 @@ def status_code(ret):
 
 
 class Rekognition():
-    def __init__(self, profile, endpoint=DEFAULTS["endpoint_url"], region=DEFAULTS["region_name"]):
+    def __init__(self, profile, region=DEFAULTS["region_name"]):
         self.profile = profile
-        self.endpoint_url = endpoint
         self.region_name = region
         self.client = self.get_client()
 
     def get_client(self):
         session = boto3.Session(profile_name=self.profile)
-        client = session.client("rekognition", region_name=self.region_name, endpoint_url=self.endpoint_url)
+        client = session.client("rekognition", region_name=self.region_name)
         return client
 
     def list_collections(self):
