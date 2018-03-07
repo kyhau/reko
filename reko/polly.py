@@ -4,7 +4,7 @@ from botocore.exceptions import BotoCoreError, ClientError
 from contextlib import closing
 
 DEFAULTS = {
-    "region_name": "us-east-2",
+    "region_name": "ap-southeast-2", # Sydney
     "voice_id": "Nicole",
     "input_text_type": "text",
     "output_format": "mp3",

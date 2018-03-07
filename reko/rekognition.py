@@ -2,7 +2,7 @@ from __future__ import print_function
 import boto3
 
 DEFAULTS = {
-    "region_name": "us-west-2"
+    "region_name": "ap-southeast-2"  # Sydney
 }
 
 
@@ -69,7 +69,6 @@ class Rekognition():
                 Image={"Bytes": image.read()},
                 ExternalImageId=external_image_id
             )
-            print(ret)
             if status_code(ret) == 200:
                 for rec in ret["FaceRecords"]:
                     face = rec["Face"]
@@ -78,6 +77,7 @@ class Rekognition():
                     print("ExternalImageId: {}".format(face["ExternalImageId"]))
                     print("Confidence: {}".format(face["Confidence"]))
                 return True
+            print("Unexpected status code: {}".format(status_code(ret)))
         return False
 
     def search_faces_by_image(self, image_file, external_image_id, collection_id):
