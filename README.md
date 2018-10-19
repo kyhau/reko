@@ -2,7 +2,7 @@
 
 Simple Python scripts for supporting face based user verification.
  
-1. Obtain verbal instructions using Google API - [speechrecognition](https://github.com/Uberi/speech_recognition) to get command. (Improvement required)
+1. Obtain verbal instructions using Google API - [speechrecognition](https://github.com/Uberi/speech_recognition) to get command. (Improvement required) (TODO - use Amazon Transcribe instead)
 1. Control webcam to take image using [OpenCV 2](http://opencv.org/). 
 1. Face recognition with [Amazon Rekognition](https://aws.amazon.com/rekognition/).
 1. Verbal feedback (Text-to-Speech) using [Amazon Polly](https://aws.amazon.com/polly/details/).
