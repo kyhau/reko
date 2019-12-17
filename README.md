@@ -64,7 +64,7 @@ Simple Python scripts for supporting face based user verification.
    reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID --audio_on --listen_on
    ```
 
-1. Keep watching (at the specified internal )and sign-in when possible
+1. Keep watching (at the specified interval) and sign-in when possible
 
    ```bash
    reko --profile AWS_PROFILE_NAME --collection_id COLLECTION_ID -audio_on --watch_on INTERVAL_SEC
