@@ -27,6 +27,6 @@ install:
 # command to run tests
 script:
   # autoformat code following most of the rules in PEP 8
-  - black --line-length=79 module/
+  - black --line-length=79 reko/
   # run pytest, codecov, mypy and flake8 with Tox
   - tox -r
