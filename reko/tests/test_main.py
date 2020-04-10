@@ -6,6 +6,6 @@ runner = CliRunner()
 
 
 def test_main_help():
-    response = runner.invoke(main, ["-h"])
+    response = runner.invoke(main, ["--help"])
     assert response.exit_code == 0
-    assert "" in response.output
+    assert "Show this message and exit" in response.output
