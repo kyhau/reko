@@ -41,7 +41,7 @@ class Reko(object):
             ret_id = self._rekognition.search_faces_by_image(
                 collection_id=self.collection_id, image_file=self._cache.cache_img, external_image_id=id)
         except Exception as e:
-            print(e.message)
+            print(e)
             return None
 
         return ret_id

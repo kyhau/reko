@@ -1,55 +1,47 @@
-from argparse import ArgumentParser
+import click
 import sys
 
 from reko import speechreko
 
 
-def get_args():
-    parser = ArgumentParser(description="Reko")
-    parser.add_argument("-p", "--profile", metavar="PROFILE_NAME")
-    parser.add_argument("-s", "--collections", action="store_true", default=False)
-    parser.add_argument("-c", "--collection_id", metavar="COLLECTION_ID")
-    parser.add_argument("-d", "--delete_collection", action="store_true", default=False)
-    parser.add_argument("-f", "--faces", action="store_true", default=False)
+@click.command()
+@click.option("--profile", "-p", default="default", help="AWS profile name.")
+@click.option("--collections", "-s", is_flag=True, help="List all collections.")
+@click.option("--collection_id", "-c", help="Collection ID.")
+@click.option("--delete_collection", "-d", is_flag=True, help="Delete the collection of collection_id.")
+@click.option("--faces", "-f", is_flag=True, help="List all faces.")
+@click.option("--signup", "-u", help="Signup USERNAME.")
+@click.option("--signin", "-i", help="Signin USERNAME.")
+@click.option("--audio_on", "-a", is_flag=True, help="Turn on audio feedback.")
+@click.option("--listen_on", "-l", is_flag=True, help="Sign-in using microphone.")
+@click.option("--watch_on", "-w", help="Keep watching (at the specified interval seconds) and sign-in when possible.")
+def main(profile, collections, collection_id, delete_collection, faces, signup, signin, audio_on, listen_on, watch_on):
 
-    parser.add_argument("-u", "--signup", metavar="USERNAME")
-    parser.add_argument("-i", "--signin", metavar="USERNAME")
+    app = speechreko.SpeechReko(profile=profile, collection_id=collection_id, audio_on=audio_on)
 
-    parser.add_argument("-a", "--audio_on", action="store_true", default=False)
-    parser.add_argument("-l", "--listen_on", action="store_true", default=False)
-    parser.add_argument("-w", "--watch_on", metavar="INTERVAL_SEC")
-    return parser.parse_args()
-
-
-def main():
-    args = get_args()
-
-    app = speechreko.SpeechReko(profile=args.profile, collection_id=args.collection_id, audio_on=args.audio_on)
-    print(args)
-
-    if args.collections is True:
+    if collections is True:
         app.list_collections()
 
-    elif args.delete_collection is True:
+    elif delete_collection is True:
         app.delete_collection()
 
-    elif args.faces is True:
+    elif faces is True:
         app.list_faces()
 
-    elif args.signin:
+    elif signin:
         app.signin(id=None)
 
-    elif args.signup:
-        app.signup(id=args.signup)
+    elif signup:
+        app.signup(id=signup)
 
-    elif args.watch_on:
+    elif watch_on:
         try:
-            interval_sec = float(args.watch_on)
+            interval_sec = float(watch_on)
         except:
             interval_sec = 30
         app.watching(interval_sec=interval_sec)
 
-    elif args.listen_on is True:
+    elif listen_on is True:
         app.listening()
 
 

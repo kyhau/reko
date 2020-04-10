@@ -49,7 +49,7 @@ class Rekognition():
             print(ret)
             return True
         except Exception as e:
-            print(e.message)
+            print(e)
         return False
 
     def delete_collection(self, collection_id):
@@ -58,7 +58,7 @@ class Rekognition():
             print(ret)
             return True
         except Exception as e:
-            print(e.message)
+            print(e)
         return False
 
     def index_faces(self, image_file, external_image_id, collection_id):
