@@ -1,4 +1,3 @@
-from __future__ import print_function
 from boto3 import Session
 from botocore.exceptions import BotoCoreError, ClientError
 from contextlib import closing

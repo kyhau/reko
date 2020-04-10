@@ -1,8 +1,7 @@
-from __future__ import print_function
 from argparse import ArgumentParser
 import sys
 
-import speechreko
+from reko import speechreko
 
 
 def get_args():

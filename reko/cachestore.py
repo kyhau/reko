@@ -1,7 +1,6 @@
 """
 This script intends to assist avoiding recreating audio file by caching common audio files locally.
 """
-from __future__ import print_function
 import os
 import string
 from shutil import rmtree

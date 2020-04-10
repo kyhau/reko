@@ -1,11 +1,9 @@
 """
 Reference: https://codeplasma.com/2012/12/03/getting-webcam-images-with-python-and-opencv-2-for-real-this-time/
 """
-from __future__ import print_function
-
 import cv2
-import os
 import sys
+from os.path import dirname, join, realpath
 
 # TODO Check if Camera 0 is the webcam on your machine
 DEFAULT_CAMERA_PORT = 0
@@ -24,7 +22,7 @@ class CameraMan():
     def get_image(self, camera):
         """
         Captures a single image from the camera and returns it in PIL format
-        :return:
+        :return: None if failed to capture
         """
         # read is the easiest way to get a full image out of a VideoCapture object.
         _, im = camera.read()
@@ -42,10 +40,10 @@ class CameraMan():
 
             # Ramp the camera - these frames will be discarded and are only used to
             # allow v4l2 to adjust light levels, if necessary
-            for i in xrange(ramp_frames):
+            for i in range(ramp_frames):
                 self.get_image(camera)
 
-            print("Taking image ...")
+            print("Taking image...")
 
             # Take the actual image we want to keep
             camera_capture = self.get_image(camera)
@@ -70,11 +68,11 @@ class CameraMan():
 
         return False
 
-
-def main(argv):
+def main():
     app = CameraMan()
-    myimage = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'test_image.png')
+    myimage = join(dirname(dirname(realpath(__file__))), "test_image.png")
     app.take_picture(image_name=myimage)
 
+
 if __name__ == "__main__":
-    sys.exit(main(sys.argv))
+    sys.exit(main())

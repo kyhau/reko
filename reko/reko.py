@@ -1,8 +1,6 @@
-from __future__ import print_function
-
-from cachestore import CacheStore
-from cameraman import CameraMan
-from rekognition import Rekognition
+from reko.cachestore import CacheStore
+from reko.cameraman import CameraMan
+from reko.rekognition import Rekognition
 
 
 class Reko(object):

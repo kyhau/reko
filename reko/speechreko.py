@@ -1,14 +1,13 @@
 """
 NOTE: this example requires PyAudio because it uses the Microphone class
 """ 
-from __future__ import print_function
 import os
 import speech_recognition as sr
 import time
 from playsound import playsound
 
-from polly import Polly
-from reko import Reko
+from reko.polly import Polly
+from reko.reko import Reko
 
 
 class SpeechReko(Reko):
