@@ -1,16 +1,32 @@
 language: python
-python:
-  - "2.7"
+
+matrix:
+  include:
+  - python: 3.7
+    dist: bionic
+    env: TOXENV=py37
+  - python: 3.8
+    dist: bionic
+    env: TOXENV=py38
+  - python: nightly
+    dist: bionic
+    env: TOXENV=py39
+  allow_failures:
+  - env: TOXENV=py39
 
 before_install:
-  # For building wheel for pyaudio on Ubuntu 16.04
+  # For building wheel for pyaudio on Ubuntu 18
   - sudo apt-get -qq update
   - sudo apt-get install -y -f python-pyaudio libportaudio2 libasound-dev portaudio19-dev libportaudiocpp0
   - python -m pip install --upgrade setuptools pip virtualenv
  
 # command to install dependencies
 install:
-  - pip install -r requirements-test.txt
+  - pip install -r requirements-build.txt
 
 # command to run tests
-script: py.test
+script:
+  # autoformat code following most of the rules in PEP 8
+  - black --line-length=79 reko/
+  # run pytest, codecov, mypy and flake8 with Tox
+  - tox -r

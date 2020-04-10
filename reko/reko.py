@@ -1,8 +1,6 @@
-from __future__ import print_function
-
-from cachestore import CacheStore
-from cameraman import CameraMan
-from rekognition import Rekognition
+from reko.cachestore import CacheStore
+from reko.cameraman import CameraMan
+from reko.rekognition import Rekognition
 
 
 class Reko(object):
@@ -43,7 +41,7 @@ class Reko(object):
             ret_id = self._rekognition.search_faces_by_image(
                 collection_id=self.collection_id, image_file=self._cache.cache_img, external_image_id=id)
         except Exception as e:
-            print(e.message)
+            print(e)
             return None
 
         return ret_id

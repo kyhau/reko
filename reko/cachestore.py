@@ -1,7 +1,6 @@
 """
 This script intends to assist avoiding recreating audio file by caching common audio files locally.
 """
-from __future__ import print_function
 import os
 import string
 from shutil import rmtree
@@ -39,11 +38,11 @@ class CacheStore():
         :param txt: The message in text
         :param ext: file extension (e.g. mp4, png, etc)
         """
-        new_filename = txt.lower().translate(None, string.punctuation).replace(" ","")
+        new_filename = txt.lower().translate(str.maketrans("", "", string.punctuation)).replace(" ","")
         new_filename = (new_filename[:MAX_FILENAME_LEN] + "..") \
             if len(new_filename) > MAX_FILENAME_LEN else new_filename
         if ext is not None:
-            new_filename += ".{}".format(ext)
+            new_filename = f"{new_filename}.{ext}"
         return new_filename
 
     def maintain_cache_dir(self, filename):
