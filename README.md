@@ -12,7 +12,10 @@ Simple Python scripts for supporting face based user verification.
 
 ## Build
 
-`Python 3.7, 3.8`: [![Build Status](https://travis-ci.org/kyhau/reko.svg?branch=master)](https://travis-ci.org/kyhau/reko)
+`Python 3.7, 3.8`: 
+
+[![githubactions](https://github.com/kyhau/reko/workflows/Build-Test/badge.svg)](https://github.com/kyhau/reko/actions)
+[![travisci](https://travis-ci.org/kyhau/reko.svg?branch=master)](https://travis-ci.org/kyhau/reko)
 
  ```
  virtualenv env
