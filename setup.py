@@ -12,7 +12,7 @@ __uri__ = "https://github.com/kyhau/reko"
 
 __requirements__ = [
     "boto3~=1.12",
-    "click~=7.1",
+    "click>=7.1,<9.0",
     "opencv-python~=4.2",
     "numpy~=1.18",
     "playsound~=1.2",
