@@ -43,12 +43,12 @@ jobs:
         run: |
           if [[ "${{ matrix.python-version }}" == "3.8" ]]
           then
-            echo "::set-output name=toxenv::py38"
+            echo "toxenv=py38" >> $GITHUB_OUTPUT
           elif [[ "${{ matrix.python-version }}" == "3.9" ]]
           then
-            echo "::set-output name=toxenv::py39"
+            echo "toxenv=py39" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=toxenv::py39"
+            echo "toxenv=py39" >> $GITHUB_OUTPUT
           fi
 
       - name: Test with tox
