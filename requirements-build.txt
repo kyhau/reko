@@ -4,4 +4,4 @@ black
 logilab-common~=1.9
 m2r~=0.3
 tox~=4.4
-virtualenv~=20.21
+virtualenv~=20.22
