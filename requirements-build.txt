@@ -5,3 +5,5 @@ logilab-common~=2.0
 m2r~=0.3
 tox~=4.16
 virtualenv~=20.26
+setuptools>=70.0.0 # not directly required, pinned by Snyk to avoid a vulnerability
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
